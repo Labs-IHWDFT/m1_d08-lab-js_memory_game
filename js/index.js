@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           memoryGame.pickedCards = [];
         }
         clicked.innerHTML = memoryGame.pairsClicked;
-        guessed.innerHTML = memoryGame.pairsGuessed;
+        guessed.innerHTML = memoryGame.pairsGuessed; 
       }
     };
   });
