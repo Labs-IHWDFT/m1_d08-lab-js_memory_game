@@ -23,6 +23,10 @@ body {
   position: relative;
 }
 
+.card.guessed {
+  pointer-events: none;
+}
+
 .card.turned {
   pointer-events: none;
 }
@@ -56,7 +60,7 @@ body {
   backface-visibility: hidden;
 }
 
-#score {
+#score-board {
   background-color: rgba(215, 44, 44, 0.8);
   border-radius: 8px;
   font-size: 30px;

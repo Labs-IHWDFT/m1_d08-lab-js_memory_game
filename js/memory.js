@@ -1,12 +1,24 @@
 class MemoryGame {
-  constructor(someCards) {
-    this.cards = someCards;
-    // add the rest of the class properties here
-    this.pickedCards = [];
-    this.pairsGuessed = 0;
-    this.pairsClicked = 0;
+  constructor(cards) {
+    this.cards = cards;
+    this.playedCards = [];
+    this.guessedPairs = 0;
+    this.score = 0;
+    this.isFinished = false;
+    this.clickedPairs = 0;
     this.shuffleCards();
   }
+
+  shuffleCards() {
+    for (let i = this.cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
+    }
+  }
+
+  /*
+ * An alternative method to shuffle
+ *
   shuffleCards() {
     let len = this.cards.length;
     while (len > 0) {
@@ -17,22 +29,42 @@ class MemoryGame {
       this.cards[rdmInd] = temp;
     }
   }
-  checkIfPair(card1, card2) {
-    this.pairsClicked++;
-    if (card1 === card2) {
-      this.pairsGuessed++;
-      this.isFinished();
+*/
+
+  checkIfPair() {
+    console.log(
+      this.playedCards[0].getAttribute('data-card-name'),
+      this.playedCards[1].getAttribute('data-card-name')
+    );
+    if (
+      this.playedCards[0].getAttribute('data-card-name') ===
+      this.playedCards[1].getAttribute('data-card-name')
+    ) {
       return true;
     }
-    return false;
   }
-  isFinished() {
-    if (this.pairsGuessed === 2) {
-      document.querySelector("#memory_board").innerHTML = "";
-      let h1 = document.createElement("h1");
-      h1.style.color = "pink";
-      h1.innerHTML = "YOU WON!!!";
-      document.querySelector("#memory_board").appendChild(h1);
+
+  checkIfFinished() {
+    if (this.guessedPairs === this.cards.length / 2) this.isFinished = true;
+    return this.isFinished;
+  }
+
+  playCard(card) {
+    let response = null;
+    if (this.playedCards.length < 2) this.playedCards.push(card);
+    if (this.playedCards.length === 2) {
+      this.clickedPairs += 1;
+      if (this.checkIfPair()) {
+        this.score += 1;
+        response = { isPair: true, cards: this.playedCards };
+        this.playedCards = [];
+        this.guessedPairs += 1;
+        return response;
+      } else {
+        response = { isPair: false, cards: this.playedCards };
+        this.playedCards = [];
+        return response;
+      }
     }
   }
 }

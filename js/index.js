@@ -25,65 +25,84 @@ const cards = [
   { name: 'thor', img: 'thor.jpg' }
 ];
 
+function flipCard(card) {
+  card.classList.toggle('turned');
+}
+
+function setCardGuessed(card) {
+  card.classList.add('guessed');
+}
+
+function updateScoresBoard(score, clicked, guessed) {
+  document.getElementById('score').innerText = score;
+  document.getElementById('pairs-clicked').innerText = clicked;
+  document.getElementById('pairs-guessed').innerText = guessed;
+}
+
+function gameWon() {
+  if (this.pairsGuessed === 2) {
+    let winOverlay = document.createElement('div');
+    winOverlay.innerText = 'YOU HAVE SUPERPOWERS !!!';
+    winOverlay.classList.add('win');
+    document.querySelector('#memory_board').appendChild(winOverlay);
+  }
+}
+
 const memoryGame = new MemoryGame(cards);
-console.log("new game created: ", memoryGame);
 
+window.addEventListener('load', (event) => {
+  // These actions can only be taken when the page is completely loaded
+  /*
+   *
+   The following code creates a html element that has the following contents
+    <div class="card" data-card-name="${card.name}">
+      <div class="back" name="${card.img}"></div>
+      <div class="front" style="background: url(img/${card.img}) no-repeat"></div>
+    </div>
+  */
+  const cardsHTM = memoryGame.cards.map((card) => {
+    const outsideDiv = document.createElement('div');
+    outsideDiv.classList.add('card');
+    outsideDiv.setAttribute('data-card-name', card.name);
 
-document.addEventListener("DOMContentLoaded", function(event) {
-  let html = "";
-  memoryGame.cards.forEach(pic => {
-    html += `<div class="card" data-card-name="${pic.name}">`;
-    html += `<div class="back" name="${pic.img}"></div>`;
-    html += `<div class="front" style="background: url(img/${pic.img}) no-repeat"></div>`;
-    html += `</div>`;
+    const insideDivBack = document.createElement('div');
+    insideDivBack.classList.add('back');
+    insideDivBack.name = card.img;
+
+    const insideDivFront = document.createElement('div');
+    insideDivFront.classList.add('front');
+    insideDivFront.style = `background: url(img/${card.img}) no-repeat`;
+
+    outsideDiv.appendChild(insideDivBack);
+    outsideDiv.appendChild(insideDivFront);
+
+    return outsideDiv;
+  });
+
+  // Bind the click event of each element to a callback function
+  cardsHTM.forEach((card) => {
+    // Bind the event listener
+    card.addEventListener('click', (event) => {
+      const card = event.currentTarget;
+      flipCard(card);
+      const playResult = memoryGame.playCard(card);
+      if (playResult.isPair) {
+        playResult.cards.forEach((card) => setCardGuessed(card));
+      } else {
+        playResult.cards.forEach((card) =>
+          setTimeout(() => flipCard(card), 1 * 1000)
+        );
+      }
+      updateScoresBoard(
+        memoryGame.score,
+        memoryGame.clickedPairs,
+        memoryGame.guessedPairs
+      );
+    });
   });
 
   // Add all the divs to the HTML
-  
-  document.querySelector("#memory-board").innerHTML = html;
+  const mainBoard = document.querySelector('#memory-board');
 
-  function toggle(element, classes) {
-    classes.forEach(className => element.classList.toggle(className));
-  }
-
-  // Bind the click event of each element to a function
-  document.querySelectorAll(".card").forEach(card => {
-    card.onclick = function() {
-      // TODO: write some code here
-      const clicked = document.getElementById("pairs-clicked");
-      const guessed = document.getElementById("pairs-guessed");
-
-      console.log("Card clicked: ", card);
-      toggle(card.children[0], ["back", "front"]);
-      toggle(card.children[1], ["back", "front"]);
-
-      memoryGame.pickedCards.push(card);
-      // console.log(memoryGame.pickedCards);
-      if (memoryGame.pickedCards.length === 2) {
-        const firstInPair = memoryGame.pickedCards[0];
-        const secondInPair = memoryGame.pickedCards[1];
-        const cardName1 = firstInPair.getAttribute("data-card-name");
-        const cardName2 = secondInPair.getAttribute("data-card-name");
-        // console.log(cardName1, cardName2);
-
-        if (memoryGame.checkIfPair(cardName1, cardName2)) {
-          firstInPair.children[1].classList.add("blocked");
-          secondInPair.children[1].classList.add("blocked");
-          memoryGame.pickedCards = [];
-        } else {
-          setTimeout(() => {
-            toggle(firstInPair.children[0], ["back", "front"]);
-            toggle(firstInPair.children[1], ["back", "front"]);
-            toggle(secondInPair.children[0], ["back", "front"]);
-            toggle(secondInPair.children[1], ["back", "front"]);
-          }, 1000);
-          memoryGame.pickedCards = [];
-        }
-        clicked.innerHTML = memoryGame.pairsClicked;
-        guessed.innerHTML = memoryGame.pairsGuessed; 
-      }
-    };
-  });
+  cardsHTM.forEach((cardHTML) => mainBoard.appendChild(cardHTML));
 });
-
-
