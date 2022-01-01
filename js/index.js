@@ -40,15 +40,18 @@ function updateScoresBoard(score, clicked, guessed) {
 }
 
 function gameWon() {
-  if (this.pairsGuessed === 2) {
-    let winOverlay = document.createElement('div');
-    winOverlay.innerText = 'YOU HAVE SUPERPOWERS !!!';
-    winOverlay.classList.add('win');
-    document.querySelector('#memory_board').appendChild(winOverlay);
-  }
+  const winOverlay = document.createElement('div');
+  const winBanner = document.createElement('h1');
+  winBanner.innerText = 'YOU HAVE SUPERPOWERS !';
+  winOverlay.appendChild(winBanner);
+  winOverlay.style.backgroundImage =
+    "url('https://wallpaperaccess.com/full/1135868.jpg')";
+  winOverlay.classList.add('win-modal');
+  document.querySelector('#memory-board').appendChild(winOverlay);
 }
 
 const memoryGame = new MemoryGame(cards);
+memoryGame.guessedPairs = 12;
 
 window.addEventListener('load', (event) => {
   // These actions can only be taken when the page is completely loaded
@@ -98,6 +101,8 @@ window.addEventListener('load', (event) => {
         memoryGame.clickedPairs,
         memoryGame.guessedPairs
       );
+
+      if (memoryGame.checkIfFinished()) gameWon();
     });
   });
 

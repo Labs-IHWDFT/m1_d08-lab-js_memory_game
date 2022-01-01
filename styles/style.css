@@ -92,3 +92,30 @@ p {
   font-size: 20px;
   text-align: center;
 }
+
+.win-modal {
+  margin: auto;
+  position: relative;
+  height: 100%;
+  top: -100%;
+  background-color: rgba(215, 40, 40, 0.75);
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: win-modal 2s;
+}
+
+.win-modal > h1 {
+  color: rgba(62, 24, 177, 0.75);
+  margin: auto;
+  transform: rotate(-45deg) translate(-15%, 90%);
+}
+
+@keyframes win-modal {
+  0% {
+    transform: scale(0, 0);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
