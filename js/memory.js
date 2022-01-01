@@ -50,20 +50,20 @@ class MemoryGame {
   }
 
   playCard(card) {
-    let response = null;
+    let playResult = null;
     if (this.playedCards.length < 2) this.playedCards.push(card);
     if (this.playedCards.length === 2) {
       this.clickedPairs += 1;
       if (this.checkIfPair()) {
         this.score += 1;
-        response = { isPair: true, cards: this.playedCards };
+        playResult = { isPair: true, cards: this.playedCards };
         this.playedCards = [];
         this.guessedPairs += 1;
-        return response;
+        return playResult;
       } else {
-        response = { isPair: false, cards: this.playedCards };
+        playResult = { isPair: false, cards: this.playedCards };
         this.playedCards = [];
-        return response;
+        return playResult;
       }
     }
   }
