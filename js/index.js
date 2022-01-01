@@ -51,7 +51,6 @@ function gameWon() {
 }
 
 const memoryGame = new MemoryGame(cards);
-memoryGame.guessedPairs = 12;
 
 window.addEventListener('load', (event) => {
   // These actions can only be taken when the page is completely loaded
