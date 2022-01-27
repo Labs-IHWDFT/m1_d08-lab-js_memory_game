@@ -6,6 +6,7 @@ class MemoryGame {
     this.score = 0;
     this.isFinished = false;
     this.clickedPairs = 0;
+
     this.shuffleCards();
   }
 
@@ -69,6 +70,8 @@ class MemoryGame {
     return playResult;
   }
 }
+
+
 
 // The following is required for automated testing. Please, ignore it.
 if (typeof module !== 'undefined') module.exports = MemoryGame;

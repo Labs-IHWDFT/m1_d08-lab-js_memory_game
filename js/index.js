@@ -1,3 +1,4 @@
+console.log("Memory index.js loaded")
 const cards = [
   { name: 'aquaman', img: 'aquaman.jpg' },
   { name: 'batman', img: 'batman.jpg' },
@@ -30,6 +31,48 @@ function flipCard(card) {
 }
 
 function setCardGuessed(card) {
+let memoryGame = new MemoryGame(cards)
+
+const memoryBoard = document.getElementById("memory-board")
+
+const cardsHTML = memoryGame.cards.map(
+  card=>{
+  // These actions can only be taken when the page is completely loaded
+  /*
+   *
+   The following code creates a html element that has the following contents
+    <div class="card" data-card-name="${card.name}">
+      <div class="back" name="${card.img}"></div>
+      <div class="front" style="background: url(img/${card.img}) no-repeat"></div>
+    </div>
+  */
+
+    const outsideDiv = document.createElement("div")
+    outsideDiv.classList.add("card")
+    outsideDiv.setAttribute("data-card-name", card.name)
+
+    const insideDivBack = document.createElement("div")
+    insideDivBack.classList.add("back")
+    insideDivBack.name = card.img
+
+    const insideDivFront = document.createElement("div")
+    insideDivFront.classList.add("front")
+    insideDivFront.name = card.img
+    insideDivFront.style = `background: url(img/${card.img}) no-repeat` // same as HTM inline <div style= ...
+    
+    outsideDiv.appendChild(insideDivBack)
+    outsideDiv.appendChild(insideDivFront)
+
+    return outsideDiv
+  }
+)
+
+
+function flipCard(card){
+  card.classList.toggle("turned")
+}
+
+function setCardsToGuessed(card) {
   card.classList.add('guessed');
 }
 
@@ -109,4 +152,6 @@ window.addEventListener('load', (event) => {
   const mainBoard = document.querySelector('#memory-board');
 
   cardsHTM.forEach((cardHTML) => mainBoard.appendChild(cardHTML));
+
 });
+
