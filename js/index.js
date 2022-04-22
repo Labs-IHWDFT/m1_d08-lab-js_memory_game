@@ -1,5 +1,3 @@
-require('./memory');
-
 console.log("Memory index.js loaded")
 const cards = [
   { name: 'aquaman', img: 'aquaman.jpg' },
