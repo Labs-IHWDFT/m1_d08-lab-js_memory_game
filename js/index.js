@@ -30,8 +30,8 @@ function flipCard(card) {
   card.classList.toggle('turned');
 }
 
-function setCardGuessed(card) {
-let memoryGame = new MemoryGame(cards)
+function setCardGuessed(card) {}
+/*let memoryGame = new MemoryGame(cards)
 
 const memoryBoard = document.getElementById("memory-board")
 
@@ -45,7 +45,7 @@ const cardsHTML = memoryGame.cards.map(
       <div class="back" name="${card.img}"></div>
       <div class="front" style="background: url(img/${card.img}) no-repeat"></div>
     </div>
-  */
+  
 
     const outsideDiv = document.createElement("div")
     outsideDiv.classList.add("card")
@@ -65,7 +65,7 @@ const cardsHTML = memoryGame.cards.map(
 
     return outsideDiv
   }
-)
+)*/
 
 
 function flipCard(card){

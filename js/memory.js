@@ -42,7 +42,7 @@ class MemoryGame {
       this.playedCards[1].getAttribute('data-card-name')
     ) {
       return true;
-    }
+    } else return false;
   }
 
   checkIfFinished() {
