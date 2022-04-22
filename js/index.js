@@ -132,7 +132,7 @@ window.addEventListener('load', (event) => {
       flipCard(card);
       const playResult = memoryGame.playCard(card);
       if (playResult.isPair) {
-        playResult.cards.forEach((card) => setCardGuessed(card));
+        playResult.cards.forEach((card) => setCardToGuessed(card));
       } else {
         playResult.cards.forEach((card) =>
           setTimeout(() => flipCard(card), 1 * 1000)
